@@ -4,6 +4,9 @@ import math
 from typing import List, Tuple
 
 
+index_range = __import__('0-simple_helper_function').index_range
+
+
 class Server:
     """
     Server class to paginate a database of popular baby names.
@@ -41,12 +44,3 @@ class Server:
             return self.dataset()[_start:_end]
         except Exception:
             return []
-
-
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """
-    index_range function
-    """
-    end_index = page * page_size
-    start_index = end_index - page_size
-    return (start_index, end_index)
