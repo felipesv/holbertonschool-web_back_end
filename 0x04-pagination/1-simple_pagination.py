@@ -32,8 +32,8 @@ class Server:
         """
         get page content
         """
-        assert type(page) is int and page > 0
-        assert type(page_size) is int and page_size > 0
+        assert type(page) is int and type(page_size)
+        assert page > 0 is int and page_size > 0
         _range = index_range(page, page_size)
         _start = _range[0]
         _end = _range[1]
