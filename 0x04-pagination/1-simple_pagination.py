@@ -39,7 +39,7 @@ class Server:
         _end = _range[1]
         try:
             return self.dataset()[_start:_end]
-        except:
+        except Exception:
             return []
 
 
