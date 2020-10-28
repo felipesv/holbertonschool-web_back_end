@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
+"""
+Class Server
+"""
 import csv
 import math
 from typing import List, Tuple, Dict
 from math import ceil
+
+
+index_range = __import__('0-simple_helper_function').index_range
 
 
 class Server:
@@ -62,12 +68,3 @@ class Server:
             "total_pages": _total_pages
         }
         return _dict
-
-
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """
-    index_range function
-    """
-    end_index = page * page_size
-    start_index = end_index - page_size
-    return (start_index, end_index)
