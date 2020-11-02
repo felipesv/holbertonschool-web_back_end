@@ -2,7 +2,7 @@
 """
 Regex-ing
 """
-from re import sub
+import re
 from typing import List
 
 
@@ -15,6 +15,6 @@ def filter_datum(fields: List[str], redaction: str, message: str,
         # ? -> repeat the next text of the match
     """
     for field in fields:
-        message = sub(fr'{field}=.+?{separator}',
+        message = re.sub(fr'{field}=.+?{separator}',
                       f'{field}={redaction}{separator}', message)
     return message
