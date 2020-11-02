@@ -63,10 +63,8 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
     # create the handle
     c_handler = logging.StreamHandler()
-    # create format
-    c_format = logging.Formatter(RedactingFormatter(PII_FIELDS))
     # change format
-    c_handler.setFormatter(c_format)
+    c_handler.setFormatter(RedactingFormatter(PII_FIELDS))
     # add handler
     logger.addHandler(c_handler)
     return logger
@@ -86,3 +84,22 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
             host=host,
             database=database
         )
+
+
+def main():
+    """
+    main function
+    """
+    conn = get_db()
+    users = conn.cursor()
+    users.execute("SELECT CONCAT('name=', name, ';ssn=', ssn, ';ip=', ip, \
+        ';user_agent', user_agent, ';') AS message FROM users;")
+    formatter = RedactingFormatter(fields=PII_FIELDS)
+    logger = get_logger()
+
+    for user in users:
+        logger.log(logging.INFO, user[0])
+
+
+if __name__ == "__main__":
+    main()
