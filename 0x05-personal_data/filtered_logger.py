@@ -56,6 +56,8 @@ def get_logger() -> logging.Logger:
     logger = logging.getLogger("user_data")
     # set level to INFO
     logger.setLevel(logging.INFO)
+    # propagate message
+    logger.propagate = False
     # create the handle
     c_handler = logging.StreamHandler()
     # create format
