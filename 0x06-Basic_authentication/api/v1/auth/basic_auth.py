@@ -74,3 +74,13 @@ class BasicAuth(Auth):
         if not valid_pass:
             return None
         return user[0]
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """
+        current_user function
+        """
+        header = self.authorization_header(request)
+        authorization = self.extract_base64_authorization_header(header)
+        _decode = self.decode_base64_authorization_header(authorization)
+        credential = self.extract_user_credentials(_decode)
+        return self.user_object_from_credentials(credential[0], credential[1])
