@@ -14,14 +14,25 @@ class Auth():
         """
         require_auth function
         """
+        if excluded_paths is None or excluded_paths == '':
+            return True
         if path is not None:
             if path[len(path) - 1] is not '/':
                 path += '/'
-        if path is None or path not in excluded_paths:
+        if path is None:
             return True
-        if excluded_paths is None or excluded_paths == '':
-            return True
-        return False
+        for item in excluded_paths:
+            asterisk = item.find("*")
+            if asterisk != -1 and len(path) >= len(item):
+                pathcpy = path[: asterisk]
+                if pathcpy == item[: asterisk]:
+                    return False
+            elif path == item:
+                return False
+        return True
+        # if path is None or path not in excluded_paths:
+        # return True
+        # return False
 
     def authorization_header(self, request=None) -> str:
         """
