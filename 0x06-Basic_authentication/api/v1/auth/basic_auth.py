@@ -40,7 +40,7 @@ class BasicAuth(Auth):
             sample_string_bytes = base64.b64decode(base64_bytes)
             sample_string = sample_string_bytes.decode("utf-8")
             return sample_string
-        except:
+        except Exception:
             return None
 
     def extract_user_credentials(self,
