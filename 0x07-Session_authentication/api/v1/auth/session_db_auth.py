@@ -37,10 +37,7 @@ class SessionDBAuth(SessionExpAuth):
         if len(user_session) == 0:
             return None
         create_at = user_session[0].created_at
-        print(create_at)
         create_at += timedelta(0, self.session_duration)
-        print(create_at)
-        print(datetime.now())
         if create_at < datetime.now():
             return None
         return user_session[0].user_id
