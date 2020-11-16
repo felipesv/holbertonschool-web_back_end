@@ -25,18 +25,14 @@ class DB:
 
     @property
     def _session(self):
-        """
-        create session
-        """
+        """Create if not exists and return db session"""
         if self.__session is None:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> User:
-        """
-        create user
-        """
+    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
+        """Add user to database"""
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
