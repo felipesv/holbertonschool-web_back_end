@@ -7,7 +7,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from user import Base
 from user import User
-from typing import TypeVar
 
 
 class DB:
@@ -15,9 +14,7 @@ class DB:
     DB class
     """
     def __init__(self):
-        """
-        constructor
-        """
+        """constructor"""
         self._engine = create_engine("sqlite:///a.db", echo=True)
         Base.metadata.drop_all(self._engine)
         Base.metadata.create_all(self._engine)
@@ -31,7 +28,7 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """Add user to database"""
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
