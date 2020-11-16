@@ -37,10 +37,7 @@ class DB:
         """
         create user
         """
-        user = User(
-            email=email,
-            hashed_password=hashed_password
-        )
+        user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
