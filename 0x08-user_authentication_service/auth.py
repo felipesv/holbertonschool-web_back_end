@@ -89,8 +89,10 @@ class Auth:
             Destroy a session active
             Return None
         """
+        if not user_id:
+            return None
         try:
+            self._db.find_user_by(id=user_id)
             self._db.update_user(user_id, session_id=None)
         except NoResultFound:
-            pass
-        return None
+            return None
