@@ -60,3 +60,15 @@ class Auth:
             return bcrypt.checkpw(password, user.hashed_password)
         except NoResultFound:
             return False
+
+    def create_session(self, email: str) -> str:
+        """
+            Create a session id
+            Return the session id created
+        """
+        try:
+            user = self._db.find_user_by(email=email)
+            self._db.update_user(user.id, session_id=str(uuid.uuid4()))
+            return user.session_id
+        except NoResultFound:
+            return None
