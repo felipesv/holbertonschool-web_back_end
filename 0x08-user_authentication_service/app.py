@@ -3,6 +3,7 @@
 Flask app
 """
 from flask import Flask, jsonify, request, abort, redirect
+from flask import url_for
 from auth import Auth
 
 
@@ -51,7 +52,7 @@ def session() -> str:
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def log_out() -> None:
+def logout() -> None:
     """
         Destroy session
         Abort if id not exists or redirect
@@ -61,7 +62,7 @@ def log_out() -> None:
     if not user:
         abort(403)
     AUTH.destroy_session(user.id)
-    return redirect('/')
+    return redirect(url_for('simple_get'))
 
 
 if __name__ == "__main__":
