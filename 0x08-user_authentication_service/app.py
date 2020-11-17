@@ -51,7 +51,7 @@ def session() -> str:
 
 
 @app.route('/sessions', methods=['DELETE'], strict_slashes=False)
-def logout() -> None:
+def log_out() -> None:
     """
         Destroy session
         Abort if id not exists or redirect
