@@ -3,27 +3,72 @@
 Unittest client.py
 Run: python3 -m unittest test_client | tail -1
 """
-import unittest
-from unittest.mock import Mock, patch
+
+from unittest import TestCase, mock
+from unittest.mock import patch, PropertyMock
 from parameterized import parameterized
 from client import GithubOrgClient
+from utils import requests
 
 
-class TestGithubOrgClient(unittest.TestCase):
+class TestGithubOrgClient(TestCase):
     """
-    Test Cases
+    Test cases
     """
 
     @parameterized.expand([
-        ("google"),
-        ("abc")
+        ("google", {"payload": True}),
+        ("abc", {"payload": False}),
     ])
-    @patch('client.get_json', return_value={"payload": True})
-    def test_org(self, org_name, mock_class):
+    @patch('client.get_json')
+    def test_org(self, name, payload, fn_get):
         """
-        test the org function
+        Test the GithubOrgClient function
         """
-        client = GithubOrgClient(org_name)
-        _return = client.org
-        self.assertEqual(_return, mock_class.return_value)
-        mock_class.assert_called_once()
+        goc = GithubOrgClient(name)
+        fn_get.return_value = payload
+
+        self.assertEqual(payload, goc.org)
+        fn_get.assert_called_once()
+
+    def test_public_repos_url(self):
+        """
+        test the _public_repos_url function
+        """
+        with patch("client.GithubOrgClient._public_repos_url",
+                   new_callable=PropertyMock) as mock_obj:
+            mock_obj.return_value = {"url": 'http://google.com'}
+
+            r = GithubOrgClient(mock_obj.return_value)._public_repos_url
+
+            self.assertEqual(r, mock_obj.return_value)
+            mock_obj.assert_called_once()
+
+    @parameterized.expand([
+        ({'license': {'key': 'my_license'}}, 'my_license', True),
+        ({'license': {'key': 'other_license'}}, 'my_license', False)
+    ])
+    def test_has_license(self, repo, license, expected):
+        """
+        test for client._has_licence
+        """
+        self.assertEqual(GithubOrgClient.has_license(repo, license), expected)
+
+    @patch('client.get_json')
+    def test_public_repos(self, mock1):
+        """
+        test for client._public_repos
+        """
+        a = {"name": "a", "license": {"key": "k"}}
+        b = {"name": "b", "license": {"key": "l"}}
+        c = {"name": "c"}
+        method = 'client.GithubOrgClient._public_repos_url'
+        mock1.return_value = [a, b, c]
+        with patch(method, PropertyMock(return_value="www.k.com")) as m2:
+            goc = GithubOrgClient("my_goc")
+            self.assertEqual(goc.public_repos(), ['a', 'b', 'c'])
+            self.assertEqual(goc.public_repos("k"), ['a'])
+            self.assertEqual(goc.public_repos("c"), [])
+            self.assertEqual(goc.public_repos(17), [])
+            mock1.assert_called_once_with("www.k.com")
+            m2.assert_called_once_with()
