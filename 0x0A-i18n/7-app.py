@@ -4,6 +4,7 @@ App FLASK
 """
 from flask import Flask, render_template, request, g
 from flask_babel import Babel, gettext
+import pytz
 
 
 class Config:
@@ -65,6 +66,22 @@ def get_user():
             return None
     else:
         return None
+
+
+def get_timezone():
+    """ getting timezone"""
+    local_timezone = request.args.get('timezone')
+    if local_timezone in pytz.all_timezones:
+        return local_timezone
+    else:
+        raise pytz.exceptions.UnknownTimeZoneError
+    user_id = request.args.get('login_as')
+    local_timezone = users[int(user_id)]['timezone']
+    if local_timezone in pytz.all_timezones:
+        return local_timezone
+    else:
+        raise pytz.exceptions.UnknownTimeZoneError
+    return app.config['BABEL_DEFAULT_TIMEZONE']
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
