@@ -2,7 +2,7 @@
 """
 App FLASK
 """
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 from flask_babel import Babel, gettext
 
 
@@ -20,6 +20,13 @@ babel = Babel(app)
 
 app.config.from_object(Config)
 
+users = {
+    1: {"name": "Balou", "locale": "fr", "timezone": "Europe/Paris"},
+    2: {"name": "Beyonce", "locale": "en", "timezone": "US/Central"},
+    3: {"name": "Spock", "locale": "kg", "timezone": "Vulcan"},
+    4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
+}
+
 
 @babel.localeselector
 def get_locale():
@@ -32,13 +39,31 @@ def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
+def get_user():
+    """
+    get user id
+    """
+    if request.args.get('login_as'):
+        return users[int(request.args.get('login_as'))]
+    else:
+        return None
+
+
 @app.route("/", methods=["GET"], strict_slashes=False)
 def home():
     """
     home route
     return: template
     """
-    return render_template('4-index.html')
+    return render_template('5-index.html')
+
+
+@app.before_request
+def before_request():
+    """
+    Before_request handler
+    """
+    g.user = get_user()
 
 
 if __name__ == "__main__":
