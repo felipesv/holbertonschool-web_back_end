@@ -44,7 +44,10 @@ def get_user():
     get user id
     """
     if request.args.get('login_as'):
-        return users[int(request.args.get('login_as'))]
+        try:
+            return users[int(request.args.get('login_as'))]
+        except Exception:
+            return None
     else:
         return None
 
