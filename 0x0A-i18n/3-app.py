@@ -3,7 +3,7 @@
 App FLASK
 """
 from flask import Flask, render_template, request
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 
 
 class Config(object):
