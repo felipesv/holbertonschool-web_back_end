@@ -33,14 +33,18 @@ def get_locale():
     """
     Best match language
     """
-    locale = request.args.get('locale')
-    if locale:
-        lang = locale
-    elif g.user and g.user['locale'] in app.config['LANGUAGES']:
-        lang = g.user['locale']
-    else:
-        lang = request.accept_languages.best_match(app.config['LANGUAGES'])
-    return lang
+    if request.args.get("locale"):
+        return request.args.get("locale")
+
+    if request.args.get("login_as"):
+        user = get_user(request.args.get("login_as"))
+        if user and user["locale"] in app.config['LANGUAGES']:
+            user.get("locale")
+
+    if request.headers.get("locale"):
+        return request.headers.get("locale")
+
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
 def get_user():
