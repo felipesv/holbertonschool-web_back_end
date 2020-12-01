@@ -2,7 +2,7 @@
 """
 0x0B. Redis basic
 """
-import redis
+from redis.client import Redis
 from typing import Union, Callable, Optional
 import uuid
 
@@ -16,7 +16,7 @@ class Cache:
         """
         constructor
         """
-        self._redis = Redis()
+        self._redis = redis.Redis()
         self._redis.flushdb()
 
     @call_history
