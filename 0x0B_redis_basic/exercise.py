@@ -9,8 +9,9 @@ import uuid
 
 
 def count_calls(method: Callable) -> Callable:
-    """count how many times methods of the Cache class are called"""
+    """count calls"""
     key = method.__qualname__
+
     @wraps(method)
     def wrapper(self, *args, **kwds):
         """wrapper func"""
@@ -20,10 +21,11 @@ def count_calls(method: Callable) -> Callable:
 
 
 def call_history(method: Callable) -> Callable:
-    """store called func in redis list"""
+    """call  history"""
     key = method.__qualname__
     inputs = key + ":inputs"
     outputs = key + ":outputs"
+
     @wraps(method)
     def wrapper(self, *args, **kwds):
         """wrapper func"""
@@ -35,7 +37,7 @@ def call_history(method: Callable) -> Callable:
 
 
 def replay(method: Callable):
-    """prints the data"""
+    """replay function"""
     key = method.__qualname__
     inputs = key + ":inputs"
     outputs = key + ":outputs"
@@ -51,7 +53,8 @@ def replay(method: Callable):
 
 
 class Cache:
-    """Redis Class"""
+    """Cache class"""
+
     def __init__(self):
         """constructor"""
         self._redis = Redis()
@@ -60,14 +63,17 @@ class Cache:
     @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        """returns a string"""
+        """Store data in cache"""
         key = str(uuid.uuid4())
         self._redis.set(key, data)
         return key
 
     def get(self, key: str, fn: Optional[Callable] = None) ->\
             Union[str, bytes, int, float]:
-        """get method"""
+        """get data from fuction or cache"""
         if key:
             result = self._redis.get(key)
-            return fn(result) if fn else result
+            if fn:
+                return fn(result)
+            else:
+                return result
