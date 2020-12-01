@@ -2,7 +2,7 @@
 """
 0x0B. Redis basic
 """
-from redis.client import Redis
+import redis
 from typing import Union, Callable, Optional
 import uuid
 
