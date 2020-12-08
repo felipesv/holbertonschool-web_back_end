@@ -13,7 +13,8 @@ number_post = nginx_collection.find({"method": "POST"}).count()
 number_put = nginx_collection.find({"method": "PUT"}).count()
 number_patch = nginx_collection.find({"method": "PATCH"}).count()
 number_delete = nginx_collection.find({"method": "DELETE"}).count()
-number_status = nginx_collection.find({"method": "GET", "path": "/status"}).count()
+number_status = nginx_collection.find(
+    {"method": "GET", "path": "/status"}).count()
 
 
 print("{} logs".format(number))
