@@ -17,6 +17,7 @@ if __name__ == "__main__":
         {"method": "GET", "path": "/status"}).count()
 
     print("{} logs".format(number))
+    print("Methods:")
     print("\tmethod GET: {}".format(number_get))
     print("\tmethod POST: {}".format(number_post))
     print("\tmethod PUT: {}".format(number_put))
