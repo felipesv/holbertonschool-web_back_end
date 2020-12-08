@@ -29,5 +29,6 @@ if __name__ == "__main__":
     print("\tmethod PATCH: {}".format(number_patch))
     print("\tmethod DELETE: {}".format(number_delete))
     print("{} status check".format(number_status))
+    print("IPs:")
     for ips in number_ips:
         print("\t{}: {}".format(ips.get("_id"), ips.get("total")))
