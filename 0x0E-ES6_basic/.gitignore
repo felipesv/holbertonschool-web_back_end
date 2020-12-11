@@ -3,3 +3,4 @@ babel.config.js
 package-lock.json
 package.json
 .eslintrc.js
+*main*
