@@ -10,5 +10,6 @@ export default class HolbertonClass {
     } if (hint === 'string') {
       return this._location;
     }
+    return 49;
   }
 }
