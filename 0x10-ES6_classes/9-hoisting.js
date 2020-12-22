@@ -24,7 +24,7 @@ class StudentHolberton {
   }
 
   get fullName() {
-    return `${this._firstName} ${this._lastName}`;
+    return `${this._firstName} ${this._lastName} - ${this._holbertonClass.year} - ${this._holbertonClass.location}`;
   }
 
   get holbertonClass() {
