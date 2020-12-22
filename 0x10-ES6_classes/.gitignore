@@ -5,3 +5,4 @@ package.json
 .eslintrc.js
 *main*
 utils.js
+nodesource_setup.sh
