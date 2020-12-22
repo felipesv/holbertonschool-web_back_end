@@ -24,11 +24,15 @@ class StudentHolberton {
   }
 
   get fullName() {
-    return `${this._firstName} ${this._lastName} - ${this._holbertonClass.year} - ${this._holbertonClass.location}`;
+    return `${this._firstName} ${this._lastName}`;
   }
 
   get holbertonClass() {
     return this.holbertonClass;
+  }
+
+  get fullStudentDescription() {
+    return `${this._firstName} ${this._lastName} - ${this._holbertonClass.year} - ${this._holbertonClass.location}`;
   }
 }
 
