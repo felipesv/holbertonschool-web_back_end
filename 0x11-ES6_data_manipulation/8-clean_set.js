@@ -1,5 +1,7 @@
 export default function cleanSet(_set, startString) {
-  if (startString === '') return '';
+  if (typeof _set !== 'object') return '';
+  if (typeof startString !== 'string') return '';
+  if (startString.length === 0) return '';
 
   const stringSet = [];
   [..._set].forEach((x) => {
