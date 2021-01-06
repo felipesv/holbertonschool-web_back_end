@@ -11,7 +11,9 @@ const countStudents = (path) => {
   }
 
   data = data.toString().split('\n');
+  data = data.filter((element) => element.length > 0);
   data.shift();
+
   data.forEach((element) => {
     if (element.length > 0) {
       const row = element.split(',');
