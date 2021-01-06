@@ -6,15 +6,18 @@ const countStudents = async (path) => {
     const csvData = await fs.promises.readFile(path, { encoding: 'utf8' });
     const fields = {};
     const dataShow = {};
-    const data = csvData.toString().split('\n');
+    let data = csvData.toString().split('\n');
+    data = data.filter((element) => element.length > 0);
 
     data.shift();
     data.forEach((element) => {
-      const row = element.split(',');
-      if (row[3] in fields) {
-        fields[row[3]].push(row[0]);
-      } else {
-        fields[row[3]] = [row[0]];
+      if (element.length > 0) {
+        const row = element.split(',');
+        if (row[3] in fields) {
+          fields[row[3]].push(row[0]);
+        } else {
+          fields[row[3]] = [row[0]];
+        }
       }
     });
     dataShow.numberStudents = `Number of students: ${data.length}`;
@@ -40,9 +43,7 @@ const app = http.createServer((req, res) => {
   if (req.url === '/students') {
     res.write('This is the list of our students\n');
     countStudents(process.argv[2]).then((dataShow) => {
-      res.write(`${dataShow.numberStudents}\n`);
-      res.write(dataShow.studentsFields.join('\n'));
-      res.end();
+      res.end([dataShow.numberStudents, dataShow.studentsFields].join('\n'));
     }).catch(() => {
       res.end('Error: Cannot load the database');
       throw new Error('Cannot load the database');
