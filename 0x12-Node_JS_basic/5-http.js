@@ -41,8 +41,8 @@ const app = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain');
   if (req.url === '/') res.end('Hello Holberton School!');
   if (req.url === '/students') {
-    res.write('This is the list of our students\n');
     countStudents(process.argv[2]).then((dataShow) => {
+      res.write('This is the list of our students\n');
       res.end([dataShow.numberStudents].concat(dataShow.studentsFields).join('\n'));
     }).catch(() => {
       res.end('Error: Cannot load the database');
