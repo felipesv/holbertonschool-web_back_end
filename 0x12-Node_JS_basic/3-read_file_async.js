@@ -4,17 +4,21 @@ const countStudents = (path) => new Promise((resolve, reject) => {
   fs.readFile(path, (error, csvData) => {
     if (error) {
       reject(Error('Cannot load the database'));
-    }
+    } 
     if (csvData) {
       const fields = {};
-      const data = csvData.toString().split('\n');
+      let data = csvData.toString().split('\n');
+      data = data.filter((element) => element.length > 0);
       data.shift();
+
       data.forEach((element) => {
-        const row = element.split(',');
-        if (row[3] in fields) {
-          fields[row[3]].push(row[0]);
-        } else {
-          fields[row[3]] = [row[0]];
+        if (element.length > 0) {
+          const row = element.split(',');
+          if (row[3] in fields) {
+            fields[row[3]].push(row[0]);
+          } else {
+            fields[row[3]] = [row[0]];
+          }
         }
       });
       console.log(`Number of students: ${data.length}`);
