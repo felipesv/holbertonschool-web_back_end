@@ -4,7 +4,7 @@ const countStudents = (path) => new Promise((resolve, reject) => {
   fs.readFile(path, (error, csvData) => {
     if (error) {
       reject(Error('Cannot load the database'));
-    } 
+    }
     if (csvData) {
       const fields = {};
       let data = csvData.toString().split('\n');
