@@ -20,8 +20,7 @@ const countStudents = async (path) => {
         }
       }
     });
-    if (data.length > 0) dataShow.numberStudents = `Number of students: ${data.length}`;
-    else dataShow.numberStudents = '';
+    dataShow.numberStudents = `Number of students: ${data.length}`;
     dataShow.studentsFields = [];
     for (const field in fields) {
       if (field) {
@@ -44,7 +43,8 @@ const app = http.createServer((req, res) => {
   if (req.url === '/students') {
     res.write('This is the list of our students\n');
     countStudents(process.argv[2]).then((dataShow) => {
-      res.end([dataShow.numberStudents].concat(dataShow.studentsFields).join('\n'));
+      res.write([dataShow.numberStudents].concat(dataShow.studentsFields).join('\n'));
+      res.end('\n');
     }).catch((error) => {
       res.end(error.message);
     });
