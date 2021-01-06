@@ -13,11 +13,13 @@ const countStudents = (path) => {
   data = data.toString().split('\n');
   data.shift();
   data.forEach((element) => {
-    const row = element.split(',');
-    if (row[3] in fields) {
-      fields[row[3]].push(row[0]);
-    } else {
-      fields[row[3]] = [row[0]];
+    if (element.length > 0) {
+      const row = element.split(',');
+      if (row[3] in fields) {
+        fields[row[3]].push(row[0]);
+      } else {
+        fields[row[3]] = [row[0]];
+      }
     }
   });
   console.log(`Number of students: ${data.length}`);
