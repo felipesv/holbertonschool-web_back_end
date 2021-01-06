@@ -43,7 +43,7 @@ const app = http.createServer((req, res) => {
   if (req.url === '/students') {
     res.write('This is the list of our students\n');
     countStudents(process.argv[2]).then((dataShow) => {
-      res.end([dataShow.numberStudents, dataShow.studentsFields].join('\n'));
+      res.end([dataShow.numberStudents].concat(dataShow.studentsFields).join('\n'));
     }).catch(() => {
       res.end('Error: Cannot load the database');
       throw new Error('Cannot load the database');
