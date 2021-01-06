@@ -20,7 +20,8 @@ const countStudents = async (path) => {
         }
       }
     });
-    dataShow.numberStudents = `Number of students: ${data.length}`;
+    if (data.length > 0) dataShow.numberStudents = `Number of students: ${data.length}`;
+    else dataShow.numberStudents = '';
     dataShow.studentsFields = [];
     for (const field in fields) {
       if (field) {
