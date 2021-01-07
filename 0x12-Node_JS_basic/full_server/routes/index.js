@@ -8,6 +8,6 @@ app.get('/', ((request, response) => AppController.getHomepage(request, response
 app.get('/students', ((request, response) => StudentsController.getAllStudents(request, response)));
 app.get('/students/:major', ((request, response) => StudentsController.getAllStudentsByMajor(request, response)));
 
-//app.listen(1245);
+// app.listen(1245);
 
 module.exports = app;
